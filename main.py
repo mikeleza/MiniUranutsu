@@ -7,7 +7,7 @@ import os
 from server import server_on
 
 # ตั้งค่าบอท
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.messages = True  # เปิดใช้งานการอ่านข้อความเพื่อฟังการตอบกลับ
 bot = commands.Bot(command_prefix="!", intents=intents)
 
@@ -24,7 +24,7 @@ remind_times = [
 # สถานะการเตือน
 remind_status = {
     "needs_reminder": True,
-    "waiting_for_response": False,  # ใช้ตัวแปรนี้เพื่อเช็คว่าบอทกำลังรอคำตอบจากผู้ใช้หรือไม่
+    "waiting_for_response": True,  # ใช้ตัวแปรนี้เพื่อเช็คว่าบอทกำลังรอคำตอบจากผู้ใช้หรือไม่
 }
 
 @bot.event
@@ -68,7 +68,7 @@ async def reset_daily_status():
     
     # รีเซ็ตสถานะ
     remind_status["needs_reminder"] = True  # เริ่มการเตือนใหม่
-    remind_status["waiting_for_response"] = False  # หยุดรอคำตอบจากผู้ใช้
+    remind_status["waiting_for_response"] = True  # หยุดรอคำตอบจากผู้ใช้
     print("สถานะรีเซ็ตแล้วในวันนี้")
 
 @bot.event
@@ -82,13 +82,13 @@ async def on_message(message):
                 if "เดี๋ยว" in message.content:  # ถ้ามีคำว่า "เดี๋ยว" มาด้วย
                     # ถือว่าเป็นคำตอบ "ยังไม่กิน"
                     await message.channel.send("ยังไม่กินใช่มั้ยคะ? เดี๋ยวจะมาเตือนใหม่นะคะ")
-                    remind_status["waiting_for_response"] = False  # หยุดรอคำตอบ
+                    remind_status["waiting_for_response"] = True  # หยุดรอคำตอบ
                     print("ผู้ใช้ตอบว่า 'กิน' แต่มี 'เดี๋ยว' ถือว่าเป็นยังไม่กิน")
                 else:
                     # ถ้าผู้ใช้ตอบว่า "กิน" โดยไม่มีคำว่า "เดี๋ยว"
                     await message.channel.send("เก่งมากค่ะ!")  # ส่งข้อความกลับไป
                     remind_status["needs_reminder"] = False  # หยุดการเตือนในครั้งถัดไป
-                    remind_status["waiting_for_response"] = False  # หยุดรอคำตอบ
+                    remind_status["waiting_for_response"] = True  # หยุดรอคำตอบ
                     
                     # ส่งข้อความไปยัง user ID อื่น ๆ
                     other_user_id = os.getenv('user_id_second')  # ใส่ user ID ของผู้ที่ต้องการส่งข้อความไป
@@ -105,7 +105,7 @@ async def on_message(message):
                 # ถ้าผู้ใช้ตอบว่า "ไม่" หรือ "ยัง"
                 await message.channel.send("กินยาด้วยนะคะ เดี๋ยวจะมาเตือนใหม่นะ")  # ส่งข้อความเตือนให้
                 print("ผู้ใช้ตอบว่า 'ไม่' หรือ 'ยัง' จะเตือนต่อไปตามเวลาที่กำหนด")
-                remind_status["waiting_for_response"] = False  # หยุดรอคำตอบ
+                remind_status["waiting_for_response"] = True  # หยุดรอคำตอบ
             else:
                 # ถ้าผู้ใช้ตอบอะไรที่ไม่ใช่คำตอบที่คาดหวัง
                 await message.channel.send("กรุณาตอบว่า 'กิน' หรือ 'ไม่' เพื่อให้บอททราบค่ะ")
