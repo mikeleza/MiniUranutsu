@@ -30,7 +30,7 @@ remind_status = {
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}.")
-    # print_time.start()  # เริ่มการพิมพ์เวลาปัจจุบันทุก 1 วินาที
+    print_time.start()  # เริ่มการพิมพ์เวลาปัจจุบันทุก 1 วินาที
     remind_user.start()  # เริ่มการเตือนผู้ใช้ตามเวลาที่กำหนด
     reset_daily_status.start()  # เริ่มการรีเซ็ตสถานะทุก ๆ เที่ยงคืน
 
