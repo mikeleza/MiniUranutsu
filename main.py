@@ -16,9 +16,9 @@ USER_ID = os.getenv('user_id_first')  # แทนด้วย ID ของผู
 
 # เวลาที่ต้องการเตือนให้กินยา พร้อมข้อความที่ต้องการส่ง
 remind_times = [
-    {"hour": 18, "minute": 00, "message": "กินยาแล้วหรือยังคะ"},
-    {"hour": 18, "minute": 30, "message": "กินยาแล้วหรือยังเอ่ย"},
-    {"hour": 19, "minute": 00, "message": "กินยาได้แล้วมั้งคะ"}
+    {"hour": 11, "minute": 00, "message": "กินยาแล้วหรือยังคะ"},
+    {"hour": 12, "minute": 30, "message": "กินยาแล้วหรือยังเอ่ย"},
+    {"hour": 13, "minute": 00, "message": "กินยาได้แล้วมั้งคะ"}
 ]
 
 # สถานะการเตือน
@@ -30,7 +30,7 @@ remind_status = {
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}.")
-    print_time.start()  # เริ่มการพิมพ์เวลาปัจจุบันทุก 1 วินาที
+    # print_time.start()  # เริ่มการพิมพ์เวลาปัจจุบันทุก 1 วินาที
     remind_user.start()  # เริ่มการเตือนผู้ใช้ตามเวลาที่กำหนด
     reset_daily_status.start()  # เริ่มการรีเซ็ตสถานะทุก ๆ เที่ยงคืน
 
