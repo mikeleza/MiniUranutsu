@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 import asyncio
 import os
 
+from server import server_on
+
 # ตั้งค่าบอท
 intents = discord.Intents.all()
 intents.messages = True  # เปิดใช้งานการอ่านข้อความเพื่อฟังการตอบกลับ
@@ -112,6 +114,8 @@ async def on_message(message):
             pass
 
     await bot.process_commands(message)
+    
+server_on()
 
 # รันบอท (ใส่ TOKEN ของบอทของคุณในนี้)
 bot.run(os.getenv('DISCORD_TOKEN'))
