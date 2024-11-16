@@ -1,14 +1,13 @@
-from flask import Flask
+import os
+import time
 from threading import Thread
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 
-app = Flask('')
-
-@app.route('/')
-def home():
-    return "The bot is running!"
-
+# ใช้ HTTPServer ที่ไม่มีการทำงานจริง
 def run():
-    app.run(host='0.0.0.0',port=5000)
+    port = int(os.getenv('PORT', 5000))  # ใช้ค่าพอร์ตจาก environment หรือใช้ 5000
+    server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
+    server.serve_forever()
 
 def server_on():
     t = Thread(target=run)
